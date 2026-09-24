@@ -1,0 +1,41 @@
+# --- segredos: nunca versionar ---
+APIs/
+
+# --- mídia (projetos de áudio) ---
+*.mp3
+*.MP3
+*.wav
+*.flac
+*.m4a
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# --- pastas de mídia / extrações ---
+Downloads/
+forte_work/mp3/
+forte_work/mp3_48k/
+forte_work/mp3_music_48k/
+forte_work/mp3_music_short/
+archive/oceans_work/wavs/
+archive/oceans_work/mp3/
+archive/oceans_work/ace_out/
+
+# --- HTMLs e bundles gigantes (GitHub rejeita arquivos > 100MB) ---
+forte_work/PREACH_FLOW_V08_REDESIGN.html
+forte_work/V09_partial.html
+forte_work/V09b.html
+forte_work/V09c.html
+archive/PREACH_FLOW_STANDALONE_V09_MULTI_SONG.html
+archive/PREACH_FLOW_STANDALONE_V08.html
+archive/oceans_work/v09_assembled.js
+archive/oceans_work/DATA_OCEANS.js
+forte_work/DATA_Forte.js
+
+# --- logs e lixo temporário ---
+*.log
+*.err
+dom_out.html
+ui_dump.txt

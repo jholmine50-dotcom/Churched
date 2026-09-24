@@ -1,0 +1,300 @@
+<style>*{box-sizing:border-box}
+:root{
+  --bg:#0a0c11;--bg2:#07090d;
+  --panel:#11151d;--panel2:#0d1016;--panel3:#151a23;
+  --line:#1e2430;--line2:#2a3240;
+  --text:#e9edf3;--muted:#8a94a3;--dim:#5d6675;
+  --accent:#4ade80;--accent-dim:rgba(74,222,128,.14);
+  --accent2:#60a5fa;--accent2-dim:rgba(96,165,250,.12);
+  --danger:#f87171;--warn:#fbbf24;
+  --radius:10px;--radius-sm:7px;
+  --shadow:0 16px 48px rgba(0,0,0,.45);
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Consolas,monospace;
+}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased}
+body{padding:0}
+::selection{background:rgba(74,222,128,.25)}
+button{font-family:inherit}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+
+/* ===== shell ===== */
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+
+/* ===== sidebar / music dock ===== */
+.music-dock{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;background:var(--panel2);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:2px;z-index:50}
+.dock-title{font-size:10px;letter-spacing:1.8px;color:var(--dim);font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:0 4px 12px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.dock-title span:last-child{font-family:var(--mono);color:var(--accent);background:var(--accent-dim);border:1px solid rgba(74,222,128,.25);border-radius:99px;padding:2px 8px;font-size:10px}
+.music-opt{width:100%;text-align:left;padding:11px 12px;border-radius:var(--radius-sm);border:1px solid transparent;background:transparent;color:var(--muted);font-weight:600;font-size:13px;cursor:pointer;transition:all .14s ease;line-height:1.3}
+.music-opt:hover{background:var(--panel3);color:var(--text);border-color:var(--line2)}
+.music-opt.active{background:var(--accent-dim);color:var(--accent);border-color:rgba(74,222,128,.35)}
+.music-opt .mo-sub{display:block;font-size:10px;font-weight:500;opacity:.7;margin-top:3px;letter-spacing:.3px}
+.dock-hint{font-size:10px;color:var(--dim);line-height:1.5;margin-top:auto;padding:14px 4px 0;border-top:1px solid var(--line)}
+
+/* ===== main ===== */
+.main{min-width:0;padding:22px 26px 36px;max-width:1080px}
+
+.app-header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.brand-wrap{display:flex;align-items:center;gap:13px;min-width:0}
+.brand-mark{width:38px;height:38px;border-radius:9px;background:linear-gradient(145deg,#1a2b22,#0f1a14);border:1px solid rgba(74,222,128,.35);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:15px;letter-spacing:-.5px;flex-shrink:0}
+.brand{font-size:17px;font-weight:800;letter-spacing:2.5px}
+.muted{color:var(--dim);margin-top:3px;font-size:11px;letter-spacing:.4px}
+.pill{font-size:9.5px;letter-spacing:1.4px;border:1px solid var(--line2);border-radius:99px;padding:7px 12px;color:var(--muted);background:var(--panel2);font-weight:700;white-space:nowrap;font-family:var(--mono)}
+.header-right{display:flex;align-items:center;gap:10px}
+
+/* ===== mode switch ===== */
+.mode-switch{display:flex;gap:3px;background:var(--panel2);border:1px solid var(--line2);border-radius:99px;padding:4px}
+.mode-opt{border:1px solid transparent;background:transparent;color:var(--dim);font-size:9.5px;font-weight:800;letter-spacing:1.2px;padding:6px 13px;border-radius:99px;cursor:pointer;transition:color .14s ease,background .14s ease,border-color .14s ease}
+.mode-opt:hover{color:var(--text)}
+.mode-opt.active{background:var(--accent-dim);color:var(--accent);border-color:rgba(74,222,128,.35)}
+
+/* ===== modo BASE (padrão): transporte+tempo+intensidade num bloco só, + fala ===== */
+body.mode-base .tracks-card,body.mode-base .grid-card,body.mode-base .footer,body.mode-base .master-card{display:none}
+body.mode-base .transport-panel{margin-top:0;border-radius:var(--radius) var(--radius) 0 0}
+body.mode-base .timeline-card{margin-top:0;border-radius:0;border-top:0}
+body.mode-base .two-col{margin-top:0;grid-template-columns:1fr}
+body.mode-base .expression-card{border-radius:0 0 var(--radius) var(--radius);border-top:0}
+body.mode-base .side-stack{max-width:480px}
+body.mode-base .main{max-width:920px}
+
+/* ===== panels ===== */
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 0 rgba(255,255,255,.02) inset}
+.panel + .panel,.two-col{margin-top:14px}
+.eyebrow,.card-title{font-size:9.5px;letter-spacing:1.8px;color:var(--dim);font-weight:800;text-transform:uppercase}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+
+/* ===== transport ===== */
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.main-controls button,.loop-btn,.mute-btn{padding:11px 16px;border-radius:var(--radius-sm);border:1px solid var(--line2);background:var(--panel3);color:var(--text);font-weight:700;font-size:12px;letter-spacing:.6px;cursor:pointer;transition:filter .12s ease,transform .12s ease,background .14s ease,border-color .14s ease}
+.main-controls button:hover,.loop-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.main-controls button:active{transform:translateY(0)}
+.main-controls .primary{background:#e8fff4;color:#06130c;border-color:#e8fff4;min-width:200px}
+.main-controls .primary:hover{filter:brightness(.97);background:#fff}
+.main-controls #stop{border-color:#3f2a30;color:#f0b8be}
+.main-controls #fadeBtn{border-color:#3a3426;color:#e8d9a8}
+.status{margin-top:13px;min-height:18px;color:#8ee6a5;font-size:12.5px;line-height:1.45}
+.tail-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 9px;border-radius:99px;border:1px solid var(--line);color:var(--dim);font-size:9.5px;letter-spacing:.7px;background:var(--panel2);font-weight:700}
+
+/* ===== timeline ===== */
+.timeline-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.timeline-state{margin-top:5px;color:var(--muted);font-size:11.5px;font-family:var(--mono);letter-spacing:.3px}
+.times{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.times .elapsed{font-size:22px;font-weight:700;letter-spacing:-.5px}
+.times .total{color:var(--dim);font-size:12px}
+.times .remaining{font-size:11px;color:var(--accent2);font-weight:700;letter-spacing:.5px}
+.timeline-row{display:flex;gap:10px;align-items:center;margin-top:12px}
+.timeline-row input{flex:1;height:36px;margin:0;accent-color:var(--accent2)}
+.loop-btn{padding:9px 12px;font-size:10.5px;white-space:nowrap;letter-spacing:.5px}
+.loop-btn.active{background:var(--accent2-dim);color:var(--accent2);border-color:rgba(96,165,250,.4)}
+.timeline-hint{margin-top:8px;color:var(--dim);font-size:10.5px}
+
+/* ===== two col ===== */
+.two-col{display:grid;grid-template-columns:1.15fr 1fr;gap:14px}
+.side-stack{display:flex;flex-direction:column;gap:14px}
+.side-stack .panel{margin-top:0;flex:1}
+.action-help{margin-top:9px;color:var(--dim);font-size:11px;line-height:1.5}
+
+/* ===== expression ===== */
+.expression-top{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end}
+.scene{font-size:26px;font-weight:800;letter-spacing:.5px;margin-top:5px}
+.scene-desc{color:var(--muted);margin-top:4px;font-size:12px}
+.big-number{display:flex;align-items:baseline;gap:6px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.big-number span{font-size:52px;line-height:.95;font-weight:800;letter-spacing:-2px;color:var(--accent)}
+.big-number small{color:var(--dim);font-size:12px;font-weight:700}
+.slider-wrap{margin-top:18px}
+.slider-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.slider-title b{font-size:11px;letter-spacing:1.4px;color:var(--muted)}
+.slider-title span{color:var(--dim);font-size:11px}
+.slider-wrap input[type=range]{height:44px;margin:6px 0 0}
+.scale{display:flex;justify-content:space-between;color:var(--dim);font-size:8.5px;letter-spacing:1.2px;margin-top:2px;font-weight:700}
+.scale span:nth-child(3){color:var(--accent);opacity:.85}
+.slider-hint{margin-top:9px;text-align:center;color:var(--dim);font-size:10.5px;line-height:1.5}
+
+/* ===== talk / master ===== */
+.talk-btn{width:100%;font-size:14px;padding:15px;border-radius:var(--radius-sm);background:var(--panel3);border:1px solid var(--line2);color:var(--text);font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .14s ease}
+.talk-btn:hover{border-color:#4a5568}
+.talk-btn.active{background:#e8fff4;color:#06130c;border-color:#e8fff4}
+.master-row{display:flex;align-items:center;gap:12px;margin-top:4px}
+.master-row input{flex:1}
+.master-row b{min-width:48px;text-align:right;font-size:13px;font-family:var(--mono);color:var(--accent2)}
+
+/* ===== layers grid ===== */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.item{background:linear-gradient(180deg,#0e1219,#0a0d13);padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;gap:8px;font-size:11px;align-items:baseline}
+.row b{font-weight:700;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row span{color:var(--accent);font-family:var(--mono);font-size:10.5px;font-weight:700;flex-shrink:0}
+.meter{height:5px;background:#171d27;border-radius:99px;overflow:hidden;margin-top:8px}
+.fill{height:100%;background:linear-gradient(90deg,#2f7a52,var(--accent));border-radius:99px;transition:width .16s ease}
+
+/* ===== tracks list ===== */
+.tracks-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hint{color:var(--dim);font-size:10.5px;letter-spacing:.4px}
+.track-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:12px}
+.track-item{display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,#0e1219,#0a0d13);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;transition:border-color .14s ease,opacity .14s ease}
+.track-item:hover{border-color:var(--line2)}
+.t-main{flex:1;min-width:0}
+.t-name{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-role{font-size:10px;color:var(--dim);margin-top:2px}
+.t-badge{font-size:8.5px;letter-spacing:1px;border-radius:99px;padding:3px 7px;border:1px solid var(--line2);color:var(--dim);background:var(--panel2);white-space:nowrap;font-weight:800;font-family:var(--mono)}
+.t-badge.added{color:var(--accent);border-color:rgba(74,222,128,.35);background:var(--accent-dim)}
+.mute-btn{padding:7px 10px;font-size:9.5px;letter-spacing:.8px;border-radius:6px;flex-shrink:0;font-weight:800;font-family:var(--mono)}
+.mute-btn:not(.muted){color:#9fe6bb;border-color:#2b4a3a;background:#0b1410}
+.mute-btn.muted{color:#ff9aa6;border-color:#5a3038;background:#2a1216}
+.track-item.is-muted{opacity:.5;border-color:#3a252c}
+.track-item.is-muted .t-name{text-decoration:line-through;color:var(--muted)}
+
+/* ===== footer ===== */
+.footer{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:10.5px;flex-wrap:wrap}
+.kbd{border:1px solid var(--line2);border-bottom-color:#3a4452;border-radius:5px;padding:2px 6px;color:var(--muted);background:var(--panel2);font-family:var(--mono);font-size:9.5px;font-weight:700}
+
+/* ===== range styling ===== */
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:linear-gradient(90deg,#1c2330,#2c3646)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;margin-top:-6px;border-radius:50%;background:#f2fdf7;border:3px solid var(--accent);box-shadow:0 0 0 4px rgba(74,222,128,.1),0 4px 14px rgba(0,0,0,.4);transition:box-shadow .12s ease}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(74,222,128,.16),0 4px 14px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-track{height:6px;border-radius:99px;background:linear-gradient(90deg,#1c2330,#2c3646)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#f2fdf7;border:3px solid var(--accent);box-shadow:0 0 0 4px rgba(74,222,128,.1)}
+.timeline-row input::-webkit-slider-thumb{border-color:var(--accent2);box-shadow:0 0 0 4px rgba(96,165,250,.12),0 4px 14px rgba(0,0,0,.4)}
+.timeline-row input::-moz-range-thumb{border-color:var(--accent2)}
+input[type=range]:disabled{opacity:.35;cursor:not-allowed}
+
+/* ===== responsive ===== */
+@media (max-width:960px){
+  .app{grid-template-columns:1fr}
+  .music-dock{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:14px 16px}
+  .music-opt{display:inline-block;width:auto;margin:3px 4px 0 0}
+  .dock-hint{display:none}
+  .main{padding:16px 14px 28px}
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:700px){
+  .two-col{grid-template-columns:1fr}
+  .expression-top{grid-template-columns:1fr}
+  .big-number span{font-size:44px}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .track-list{grid-template-columns:1fr}
+  .main-controls button{flex:1;min-width:0}
+  .brand{font-size:15px;letter-spacing:1.5px}
+  .pill{display:none}
+}
+</style></head>
+<body class="mode-base">
+<div class="app">
+  <aside class="music-dock" id="musicDock">
+    <div class="dock-title"><span>BIBLIOTECA</span><span id="dockCount">10</span></div>
+    <button class="music-opt active" data-set="original">Original<span class="mo-sub">10 camadas embutidas</span></button>
+    <button class="music-opt" data-set="oceans">Agnus Dei<span class="mo-sub">9 camadas instrumentais</span></button>
+    <button class="music-opt" data-set="forte">Oração Forte<span class="mo-sub">9 camadas instrumentais</span></button>
+    <div class="dock-hint">Trocar a música recarrega a mixagem. A intensidade e o master são mantidos.</div>
+  </aside>
+
+  <main class="main">
+    <header class="app-header">
+      <div class="brand-wrap">
+        <div class="brand-mark">PF</div>
+        <div>
+          <div class="brand">PREACH FLOW</div>
+          <div class="muted">instrumento de expressão emocional para pregação · V08</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="mode-switch" role="group" aria-label="Modo da interface">
+          <button class="mode-opt active" data-mode="base" type="button">BASE</button>
+          <button class="mode-opt" data-mode="full" type="button">FULL</button>
+        </div>
+        <div class="pill" id="pill">OFFLINE • 10 FAIXAS</div>
+      </div>
+    </header>
+
+    <section class="panel transport-panel">
+      <div class="panel-head"><span class="card-title">Transporte</span><span class="tail-badge">⏸ STOP COM DELAY + REVERB · CAUDA MUSICAL</span></div>
+      <div class="controls main-controls">
+        <button class="primary" id="play">▶&nbsp; TOCAR / CONTINUAR</button>
+        <button id="stop">■&nbsp; STOP</button>
+        <button id="fadeBtn">◐&nbsp; FADE OUT</button>
+      </div>
+      <div id="status" class="status">Escolha a música no painel lateral e clique em TOCAR.</div>
+    </section>
+
+    <section class="panel timeline-card">
+      <div class="timeline-head">
+        <div>
+          <div class="card-title">Linha do tempo</div>
+          <div class="timeline-state" id="timelineState">SEM LOOP • carregando duração…</div>
+        </div>
+        <div class="times">
+          <span class="elapsed" id="elapsed">0:00</span>
+          <span class="total">/ <span id="total">0:00</span></span>
+          <strong class="remaining" id="remaining">RESTAM 0:00</strong>
+        </div>
+      </div>
+      <div class="timeline-row">
+        <input id="timeline" type="range" min="0" max="0" value="0" step="0.1" disabled aria-label="Linha do tempo">
+        <button class="loop-btn" id="loopBtn">↻ LOOP: OFF</button>
+      </div>
+      <div class="timeline-hint">Arraste a linha do tempo para buscar outro ponto da música.</div>
+    </section>
+
+    <div class="two-col">
+      <section class="panel expression-card">
+        <div class="expression-top">
+          <div>
+            <div class="eyebrow">Intensidade · expressão</div>
+            <div class="scene" id="scene">PRESENTE</div>
+            <div class="scene-desc" id="sceneDesc">fundo sustentando a fala</div>
+          </div>
+          <div class="big-number"><span id="num">50</span><small id="exprPct">50%</small></div>
+        </div>
+        <div class="slider-wrap">
+          <div class="slider-title"><b>INTENSIDADE</b><span>quanto espaço emocional a música ocupa</span></div>
+          <input id="fader" type="range" min="0" max="100" value="50" step="1" aria-label="Intensidade emocional">
+          <div class="scale"><span>SUAVE</span><span>REFLEXIVO</span><span>PRESENTE</span><span>TENSÃO</span><span>CLÍMAX</span></div>
+          <div class="slider-hint">Clique duas vezes no fader para voltar ao meio (50%). Suba antes da frase forte e baixe durante a reflexão.</div>
+        </div>
+      </section>
+
+      <div class="side-stack">
+        <section class="panel action-card">
+          <div class="card-title" style="margin-bottom:10px">Controle de fala</div>
+          <button class="talk-btn" id="duckBtn">🎤 FALA</button>
+          <div class="action-help">Abaixa a música sem apagar a intensidade que você construiu.</div>
+        </section>
+        <section class="panel action-card master-card">
+          <div class="card-title" style="margin-bottom:6px">Volume master</div>
+          <div class="master-row"><input id="masterFader" type="range" min="0" max="100" value="24"><b id="masterNum">24%</b></div>
+          <div class="action-help">Volume geral da saída. Separado da expressão musical.</div>
+        </section>
+      </div>
+    </div>
+
+    <section class="panel grid-card" style="margin-top:14px">
+      <div class="panel-head"><span class="card-title">Camadas · resposta à intensidade</span></div>
+      <div id="grid" class="grid"></div>
+    </section>
+
+    <section class="panel tracks-card" style="margin-top:14px">
+      <div class="tracks-head">
+        <div class="card-title">Faixas · <span id="musicLabel">Original</span></div>
+        <div class="hint" id="tracksHint">SOM / MUTADO — clique para alternar</div>
+      </div>
+      <div id="trackList" class="track-list"></div>
+    </section>
+
+    <div class="footer">
+      <div>STOP: <span class="kbd">cauda</span> delay + reverb · posição preservada</div>
+      <div><span class="kbd">SPACE</span> fala · <span class="kbd">↑ ↓</span> intensidade · <span class="kbd">F</span> fade</div>
+    </div>
+  </main>
+</div>
+<script>
+(function(){
+  var btns=document.querySelectorAll('.mode-opt');
+  function setMode(m){
+    document.body.classList.toggle('mode-base',m==='base');
+    document.body.classList.toggle('mode-full',m==='full');
+    btns.forEach(function(b){b.classList.toggle('active',b.dataset.mode===m)});
+  }
+  btns.forEach(function(b){b.onclick=function(){setMode(b.dataset.mode)}});
+  setMode('base');
+})();
+</script>

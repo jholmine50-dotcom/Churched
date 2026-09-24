@@ -124,7 +124,7 @@ kbd{border:1px solid #252e39;border-bottom-color:#313b47;border-radius:6px;paddi
       <button class="role-card" data-role="palco">
         <div class="ri">PC</div>
         <div class="rn">PALCO</div>
-        <div class="rd">Abre no computador ligado ao som. Gera o código, mostra o que o celular está mandando e é onde o PREACH FLOW vai rodar.</div>
+        <div class="rd">Gera o código e mostra o que o celular manda. ATENÇÃO: este site não tem som — o áudio só sai do arquivo PREACH_FLOW_V10_ESPELHO.html, aberto no PC.</div>
       </button>
       <button class="role-card" data-role="controle">
         <div class="ri">CEL</div>
@@ -734,7 +734,7 @@ function showApp(){
   $('modeBadge').textContent=role==='palco'?'PALCO':'CONTROLE';
   $('codeCard').classList.toggle('hidden',role!=='palco');
   $('mirrorNote').textContent=role==='palco'
-    ?'Este é o espelho do estado. O que chegar do celular aparece aqui — e é aqui que o PREACH FLOW vai se conectar na fase 2.'
+    ?'ATENÇÃO: este palco é só espelho — não tem som. Para tocar, abra o PREACH_FLOW_V10_ESPELHO.html no PC (ele gera outro código) e use o celular só como controle.'
     :'Tudo que você mexer aqui aparece no palco na hora.';
   buildLinks();
   render();

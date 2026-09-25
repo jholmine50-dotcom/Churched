@@ -4,7 +4,7 @@ PREACH FLOW — apresentação com espelho PC ↔ celular (o PC toca o áudio, o
 
 ## Como usar
 
-1. **PC:** abra o `PREACH_FLOW_V10_ESPELHO.html` (arquivo único com tudo embutido) e clique em **ESPELHAR** — anote o **código da sala**.
+1. **PC:** abra `https://jholmine50-dotcom.github.io/Churched/palco.html` (ou o arquivo `PREACH_FLOW_V10_ESPELHO.html`) e clique em **ESPELHAR** — anote o **código da sala**.
 2. **Celular:** abra o site abaixo, digite o código e toque em **ENTRAR NA SALA**.
 3. No celular aparece o CONTROLE (TOCAR, STOP, intensidade, fala, faixas); o PC executa e o áudio sai dele.
 
@@ -12,8 +12,10 @@ PREACH FLOW — apresentação com espelho PC ↔ celular (o PC toca o áudio, o
 
 `https://jholmine50-dotcom.github.io/Churched/`
 
-- Ative em **Settings → Pages → Deploy from a branch → `main` → `/ (root)`**.
-- O controle em si é `espelho/PREACH_ESPELHO.html` (36 KB) — leve, roda em qualquer celular.
+- **`palco.html`** — o palco no navegador, com som (baixa as faixas de `audio/`).
+- **`espelho/PREACH_ESPELHO.html`** — controle (36 KB), leve, roda em qualquer celular.
+- **`index.html`** — porta de entrada: digite o código e vai direto pro controle.
+- Ativado em **Settings → Pages → Deploy from a branch → `main` → `/ (root)`** (workflow `.github/workflows/pages.yml`).
 
 ## Arquivo grande
 
@@ -22,4 +24,4 @@ Hospede-o separadamente (EdgeOne, servidor próprio ou rode direto no PC com dup
 
 ## Regras do repositório
 
-Só código. Mídia (mp3/wav), HTMLs gigantes, logs e chaves de API ficam de fora — ver `.gitignore`.
+Só código — com **uma exceção**: `audio/` (as 28 faixas que o `palco.html` toca, 170 MB). Mídia de trabalho (wav, masters), HTMLs gigantes, logs e chaves de API ficam de fora — ver `.gitignore`.

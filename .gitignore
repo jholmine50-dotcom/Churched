@@ -13,6 +13,10 @@ APIs/
 *.gif
 *.webp
 
+# --- exceção: faixas do palco no GitHub Pages ---
+!audio/
+!audio/**
+
 # --- pastas de mídia / extrações ---
 Downloads/
 forte_work/mp3/
